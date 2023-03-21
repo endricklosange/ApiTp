@@ -23,9 +23,7 @@ SET time_zone = "+00:00";
 
 -- --------------------------------------------------------
 
---
--- Structure de la table `restauranttable`
---
+
 
 CREATE TABLE `restauranttable` (
   `id` int(11) NOT NULL,
@@ -33,12 +31,6 @@ CREATE TABLE `restauranttable` (
   `modified_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `name` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
--- Structure de la table `services`
---
 
 CREATE TABLE `services` (
   `id` int(11) NOT NULL,
@@ -48,29 +40,13 @@ CREATE TABLE `services` (
   `shiftClosed` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Déchargement des données de la table `services`
---
-
-INSERT INTO `services` (`id`, `created_at`, `modified_at`, `shiftType`, `shiftClosed`) VALUES
-(1, '2023-03-19 18:32:17', '2023-03-19 18:32:17', 1, 0);
-
--- --------------------------------------------------------
-
---
--- Structure de la table `serviceusers`
---
-
 CREATE TABLE `serviceusers` (
   `id_service` int(11) NOT NULL,
   `id_user` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENG
+INE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- --------------------------------------------------------
 
---
--- Structure de la table `tabletips`
---
 
 CREATE TABLE `tabletips` (
   `id` int(11) NOT NULL,
@@ -81,11 +57,7 @@ CREATE TABLE `tabletips` (
   `id_service` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- --------------------------------------------------------
 
---
--- Structure de la table `tipspayments`
---
 
 CREATE TABLE `tipspayments` (
   `id` int(11) NOT NULL,
@@ -95,11 +67,6 @@ CREATE TABLE `tipspayments` (
   `id_user` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- --------------------------------------------------------
-
---
--- Structure de la table `users`
---
 
 CREATE TABLE `users` (
   `id` int(11) NOT NULL,
@@ -111,13 +78,66 @@ CREATE TABLE `users` (
   `active` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
+ALTER TABLE `restauranttable`
+  ADD PRIMARY KEY (`id`);
+
+ALTER TABLE `services`
+  ADD PRIMARY KEY (`id`);
+
+ALTER TABLE `serviceusers`
+  ADD KEY `fk_serviceUsers_services` (`id_service`),
+  ADD KEY `fk_serviceUsers_users` (`id_user`);
+
+ALTER TABLE `tabletips`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_tableTips_restaurantTable` (`id_restaurantTable`),
+  ADD KEY `fk_tableTips_services` (`id_service`);
+
+ALTER TABLE `tipspayments`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_tipsPayments_users` (`id_user`);
+
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`);
+
+ALTER TABLE `restauranttable`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+
+ALTER TABLE `services`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+ALTER TABLE `tabletips`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `tipspayments`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+
+ALTER TABLE `users`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+ALTER TABLE `serviceusers`
+  ADD CONSTRAINT `fk_serviceUsers_services` FOREIGN KEY (`id_service`) REFERENCES `services` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_serviceUsers_users` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+
+ALTER TABLE `tabletips`
+  ADD CONSTRAINT `fk_tableTips_restaurantTable` FOREIGN KEY (`id_restaurantTable`) REFERENCES `restauranttable` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_tableTips_services` FOREIGN KEY (`id_service`) REFERENCES `services` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+
+ALTER TABLE `tipspayments`
+  ADD CONSTRAINT `fk_tipsPayments_users` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+COMMIT;
+
+INSERT INTO `services` (`id`, `created_at`, `modified_at`, `shiftType`, `shiftClosed`) VALUES
+(1, '2023-03-19 18:32:17', '2023-03-19 18:32:17', 1, 0);
+
+
+
 -- Déchargement des données de la table `users`
 --
-
-INSERT INTO `users` (`id`, `created_at`, `modified_at`, `firstname`, `lastname`, `status`, `active`) VALUES
-(1, '2023-03-12 17:58:32', '2023-03-12 17:58:32', 'endrick', 'Losange', 0, 1);
-
 --
 -- Index pour les tables déchargées
 --
@@ -125,76 +145,6 @@ INSERT INTO `users` (`id`, `created_at`, `modified_at`, `firstname`, `lastname`,
 --
 -- Index pour la table `restauranttable`
 --
-ALTER TABLE `restauranttable`
-  ADD PRIMARY KEY (`id`);
-
---
--- Index pour la table `services`
---
-ALTER TABLE `services`
-  ADD PRIMARY KEY (`id`);
-
---
--- Index pour la table `serviceusers`
---
-ALTER TABLE `serviceusers`
-  ADD KEY `fk_serviceUsers_services` (`id_service`),
-  ADD KEY `fk_serviceUsers_users` (`id_user`);
-
---
--- Index pour la table `tabletips`
---
-ALTER TABLE `tabletips`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_tableTips_restaurantTable` (`id_restaurantTable`),
-  ADD KEY `fk_tableTips_services` (`id_service`);
-
---
--- Index pour la table `tipspayments`
---
-ALTER TABLE `tipspayments`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_tipsPayments_users` (`id_user`);
-
---
--- Index pour la table `users`
---
-ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`);
-
---
--- AUTO_INCREMENT pour les tables déchargées
---
-
---
--- AUTO_INCREMENT pour la table `restauranttable`
---
-ALTER TABLE `restauranttable`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT pour la table `services`
---
-ALTER TABLE `services`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT pour la table `tabletips`
---
-ALTER TABLE `tabletips`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT pour la table `tipspayments`
---
-ALTER TABLE `tipspayments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT pour la table `users`
---
-ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Contraintes pour les tables déchargées
@@ -203,24 +153,10 @@ ALTER TABLE `users`
 --
 -- Contraintes pour la table `serviceusers`
 --
-ALTER TABLE `serviceusers`
-  ADD CONSTRAINT `fk_serviceUsers_services` FOREIGN KEY (`id_service`) REFERENCES `services` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_serviceUsers_users` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
---
--- Contraintes pour la table `tabletips`
---
-ALTER TABLE `tabletips`
-  ADD CONSTRAINT `fk_tableTips_restaurantTable` FOREIGN KEY (`id_restaurantTable`) REFERENCES `restauranttable` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_tableTips_services` FOREIGN KEY (`id_service`) REFERENCES `services` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Contraintes pour la table `tipspayments`
---
-ALTER TABLE `tipspayments`
-  ADD CONSTRAINT `fk_tipsPayments_users` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+INSERT INTO `users` (`id`, `created_at`, `modified_at`, `firstname`, `lastname`, `status`, `active`) VALUES
+(1, '2023-03-12 17:58:32', '2023-03-12 17:58:32', 'endrick', 'Losange', 0, 1);
