@@ -25,6 +25,7 @@ app.use(bodyParser.json());
 // Routes 
 const userRoutes = require("./api/routes/userRoute")(app, db);
 const serviceRoutes = require("./api/routes/serviceRoute")(app, db);
+const tipsRoutes = require("./api/routes/tipsRoute")(app, db);
 
 
 app.listen(port, hostname, function() {
