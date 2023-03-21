@@ -12,7 +12,7 @@ module.exports = (server) => {
     .put(ServiceController.update)
     .delete(ServiceController.delete);
 
-    server
+  server
     .route('/service/addUsers')
     .post(ServiceController.addUser);
 
