@@ -1,24 +1,33 @@
+
 const express = require("express");
-
+const mysql = require("mysql");
+const bodyParser = require("body-parser");
+const db = require("./config/database")
 const hostname = "0.0.0.0";
-const port = 3000; 
-const server = express();
+const port = 8000;
 
-const mongoose = require("mongoose");
-mongoose.set('strictQuery', false);
+const app = express();
 
-mongoose.connect("mongodb://mongo/apinode");
+// Connexion à la base de données
 
-server.use(express.urlencoded()); // url encodé pour save les données encodé dans des fichiers json
-server.use(express.json());
 
-const postRoute = require("./api/routes/postRoute");
-postRoute(server);
+db.connect(function(err) {
+  if (err) {
+    console.error("Erreur de connexion à la base de données : " + err.stack);
+    return;
+  }
+  console.log("Connecté à la base de données avec l'ID " + db.threadId);
+});
 
-/*const commentRoute = require("./api/routes/commentRoute");
-commentRoute(server);
+// Middleware pour parser les requêtes en JSON
+app.use(bodyParser.json());
 
-const userRoute = require("./api/routes/userRoute");
-userRoute(server);*/
+// Routes 
+const userRoutes = require("./api/routes/userRoute")(app, db);
+const serviceRoutes = require("./api/routes/serviceRoute")(app, db);
 
-server.listen(port, hostname);
+
+app.listen(port, hostname, function() {
+  console.log(`Serveur démarré sur http://${hostname}:${port}/`);
+});
+
