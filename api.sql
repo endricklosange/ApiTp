@@ -78,6 +78,16 @@ CREATE TABLE `users` (
   `active` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+CREATE TABLE `total_restaurant_tips` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `total_tips` int(11) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `modified_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+INSERT INTO total_restaurant_tips (total_tips)
+SELECT SUM(tips) FROM tabletips;
+
 ALTER TABLE `restauranttable`
   ADD PRIMARY KEY (`id`);
 
