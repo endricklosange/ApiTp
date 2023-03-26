@@ -1,5 +1,4 @@
 const TipsModel = require('../models/tipsModel');
-let db = require('../../config/database');
 
 const TipsController = {};
 

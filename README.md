@@ -4,6 +4,10 @@ This is a basic package.json file for a Node.js project. It includes dependencie
 Installation
 Clone the repository: git clone https://github.com/endricklosange/ApiTp
 Install dependencies: npm install
+Create an ApiJS database
+Inport sql file ApiJS.sql
+Inport the postman file Tp api.postman_collection.json
+Launch the cd /src command to move to the src folder
 Start the server: npm start
 Usage
 This project can be used as a starting point for a Node.js web application. The app.js file is set as the main entry point, and nodemon is used to watch for changes and automatically restart the server.

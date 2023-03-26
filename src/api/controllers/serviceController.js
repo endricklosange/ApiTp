@@ -1,9 +1,9 @@
-const Service = require('../models/serviceModel');
+const ServiceModel = require('../models/serviceModel');
 
 const ServiceController = {};
 
 ServiceController.getAll = function (req, res) {
-  Service.getAll(function (err, rows) {
+  ServiceModel.getAll(function (err, rows) {
     if (err) {
       res.status(500).json({ error: err });
     } else {
@@ -16,7 +16,7 @@ ServiceController.getAll = function (req, res) {
 
 ServiceController.getAllServiceUser = function (req, res) {
   const id = req.params.id;
-  Service.getAllServiceUser(id, function (err, rows) {
+  ServiceModel.getAllServiceUser(id, function (err, rows) {
     if (err) {
       res.status(500).json({ error: err });
     } else if (rows.length === 0) {
@@ -34,7 +34,7 @@ ServiceController.create = function (req, res) {
     shiftClosed: req.body.shiftClosed,
   };
 
-  Service.create(service, function (err, result) {
+  ServiceModel.create(service, function (err, result) {
     if (err) {
       res.status(500).json({ error: err });
     } else {
@@ -49,7 +49,7 @@ ServiceController.addUser = function (req, res) {
     id_service: req.body.id_service,
     id_user: req.body.id_user,
   };
-  Service.addUser(service, function (err, result) {
+  ServiceModel.addUser(service, function (err, result) {
     if (err) {
       res.status(500).json({ error: err });
     } else {
@@ -60,29 +60,9 @@ ServiceController.addUser = function (req, res) {
   });
 };
 
-ServiceController.update = function (req, res) {
-  const id = req.params.id;
-  const Service = {
-    firstname: req.body.firstname,
-    lastname: req.body.lastname,
-    status: req.body.status,
-    active: req.body.active
-  };
-  Service.update(id, Service, function (err, result) {
-    if (err) {
-      res.status(500).json({ error: err });
-    } else if (result.affectedRows === 0) {
-      res.status(404).json({ message: 'Utilisateur introuvable' });
-    } else {
-      Service.id = id;
-      res.json(Service);
-    }
-  });
-};
-
 ServiceController.delete = function (req, res) {
   const id = req.params.id;
-  Service.delete(id, function (err, result) {
+  ServiceModel.delete(id, function (err, result) {
     if (err) {
       res.status(500).json({ error: err });
     } else if (result.affectedRows === 0) {

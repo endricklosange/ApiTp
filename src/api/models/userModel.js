@@ -1,7 +1,5 @@
 let db = require('../../config/database');
 
-const mysql = require('mysql');
-
 
 const User = {};
 

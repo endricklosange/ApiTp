@@ -1,7 +1,5 @@
 let db = require('../../config/database');
 
-const mysql = require('mysql');
-
 
 const Service = {};
 
@@ -19,11 +17,11 @@ Service.addUser = function(service, callback) {
     db.query('INSERT INTO serviceusers(id_service,id_user) VALUES (?,?)', [service.id_service, service.id_user], callback);
 };
 Service.update = function(id, service, callback) {
-    db.query('UPDATE services SET firstname = ?, lastname = ?, status = ?, active = ? WHERE id = ?', [service.firstname, service.lastname, service.status, service.active, id], callback);
+    db.query('UPDATE services SET shiftType = ?, shiftClosed = ?', [service.shiftType, service.shiftClosed, id], callback);
 };
 
 Service.delete = function(id, callback) {
-    db.query('DELETE FROM services WHERE id = ?', [id], callback);
+    db.query('DELETE FROM serviceusers WHERE id = ?', [id], callback);
 };
 
 module.exports = Service;
