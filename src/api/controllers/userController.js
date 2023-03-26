@@ -9,7 +9,6 @@ UserController.getAll = function (req, res) {
     } else {
       res.status(200);
       res.json(rows);
-      console.log(rows);
     }
   });
 };

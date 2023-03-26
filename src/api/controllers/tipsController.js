@@ -9,7 +9,6 @@ TipsController.getAll = function (req, res) {
     } else {
       res.status(200);
       res.json(rows);
-      console.log(rows);
     }
   });
 };
@@ -20,7 +19,6 @@ TipsController.getAllUserPayment = function (req, res) {
     } else {
       res.status(200);
       res.json(rows);
-      console.log(rows);
     }
   });
 };
@@ -31,7 +29,6 @@ TipsController.total = function (req, res) {
     } else {
       res.status(200);
       res.json(rows);
-      console.log(rows);
     }
   });
 };
