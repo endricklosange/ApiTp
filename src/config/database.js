@@ -4,8 +4,8 @@ let mysql = require('mysql2');
 let db = mysql.createConnection({
 
     host: '127.0.0.1',
-    user: 'endrick',
-    password: 'Losange+971',
+    user: 'root',
+    password: '',
     database: 'ApiJS'
 })
 
